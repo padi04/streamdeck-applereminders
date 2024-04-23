@@ -1,33 +1,33 @@
 {
   "Actions": [
     {
-      "Icon": "MailIcon",
-      "Name": "Apple Mail",
+      "Icon": "Remindersicon",
+      "Name": "Apple Reminders",
       "States": [
         {
           "FontSize": "18",
           "FontStyle": "Bold",
-          "Image": "MailIcon",
+          "Image": "Remindersicon",
           "TitleAlignment": "middle",
           "TitleColor": "#ffffff"
         }
       ],
-      "Tooltip": "See how many unread emails you have",
-      "UUID": "com.elgato.applemail.action"
+      "Tooltip": "See how many reminders you have due today",
+      "UUID": "com.padi04.applereminders.action"
     }
   ],
   "ApplicationsToMonitor": {
     "mac": [
-      "com.apple.mail"
+      "com.apple.reminders"
     ]
   },
-  "Author": "Elgato",
-  "CodePath": "AppleMail",
-  "Description": "See how many unread emails you have.",
-  "Icon": "MailIcon",
+  "Author": "padi04",
+  "CodePath": "AppleReminders",
+  "Description": "See how many reminders you have due today.",
+  "Icon": "Remindersicon",
   "MpProductID": "e2ff8b59-f235-4dbe-a6ea-34aedaafb7d6",
   "MpVariantID": "856cf922-d075-4bf1-856f-12acfe9dec71",
-  "Name": "Apple Mail",
+  "Name": "Apple Reminders",
   "OS": [
     {
       "MinimumVersion": "10.11",
@@ -38,6 +38,6 @@
   "Software": {
     "MinimumVersion": "4.1"
   },
-  "URL": "https://www.elgato.com/gaming/stream-deck",
-  "Version": "1.5"
+  "URL": "https://www.example.com",
+  "Version": "1.0"
 }

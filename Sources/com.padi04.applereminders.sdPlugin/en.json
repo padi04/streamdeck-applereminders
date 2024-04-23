@@ -1,0 +1,8 @@
+{
+  "Description": "See how many reminders you have due today", 
+  "Name": "Apple Reminders",
+  "com.padi04.reminders.action": {
+    "Name": "Apple Reminders",
+    "Tooltip": "See how many reminders you have due today"
+  }
+}

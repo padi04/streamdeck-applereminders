@@ -2,7 +2,7 @@
 /**
 @file       MyStreamDeckPlugin.m
 
-@brief      A Stream Deck plugin displaying the number of unread emails in Apple's Mail
+@brief      A Stream Deck plugin displaying the number of reminders due today in Apple's Reminders
 
 @copyright  (c) 2018, Corsair Memory, Inc.
 			This source code is licensed under the MIT-style license found in the LICENSE file.
@@ -18,8 +18,8 @@
 #import <AppKit/AppKit.h>
 
 
-// Refresh the unread count every 60s
-#define REFRESH_UNREAD_COUNT_TIME_INTERVAL		60.0
+// Refresh the due count every 60s
+#define REFRESH_DUE_COUNT_TIME_INTERVAL		60.0
 
 
 // Size of the images
@@ -99,7 +99,7 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 			CGContextRef context = CreateBitmapContext(iconSize);
 			if(context != NULL)
 			{
-				// Draw the Mail.app icon
+				// Draw the app icon
 				CGContextDrawImage(context, theRect, imageRef);
 				
 				// Generate the final image
@@ -145,20 +145,21 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 
 @interface MyStreamDeckPlugin ()
 
-// Tells us if Apple Mail is running
-@property (assign) BOOL isAppleMailRunning;
+// Tells us if Reminders is running
+@property (assign) BOOL isRemindersRunning;
 
-// A timer fired each minute to update the number of unread email from Apple's Mail
+// A timer fired each minute to update the number of due reminders from Apple's Reminders
+
 @property (strong) NSTimer *refreshTimer;
 
 // The list of visible contexts
 @property (strong) NSMutableArray *knownContexts;
 
-// The Mail icon encoded in base64
-@property (strong) NSString *base64MailIconString;
+// The icon encoded in base64
+@property (strong) NSString *base64RemindersconString;
 
-// The Mail icon with a badge encoded in base64
-@property (strong) NSString *base64MailBadgeIconString;
+// The  icon with a badge encoded in base64
+@property (strong) NSString *base64RemindersBadgeIconString;
 
 @end
 
@@ -180,33 +181,33 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 	// Create a timer to repetivily update the actions
 	if(_refreshTimer == nil)
 	{
-		_refreshTimer = [NSTimer scheduledTimerWithTimeInterval:REFRESH_UNREAD_COUNT_TIME_INTERVAL target:self selector:@selector(refreshUnreadCount) userInfo:nil repeats:YES];
+		_refreshTimer = [NSTimer scheduledTimerWithTimeInterval:REFRESH_DUE_COUNT_TIME_INTERVAL target:self selector:@selector(refreshDueCount) userInfo:nil repeats:YES];
 	}
 	
-	if(_base64MailIconString == nil)
+	if(_base64RemindersconString == nil)
 	{
-		_base64MailIconString = CreateBase64EncodedString(GetResourcePath(@"MailIcon.png"));
+		_base64RemindersconString = CreateBase64EncodedString(GetResourcePath(@"Remindersicon.png"));
 	}
 	
-	if(_base64MailBadgeIconString == nil)
+	if(_base64RemindersBadgeIconString == nil)
 	{
-		_base64MailBadgeIconString = CreateBase64EncodedString(GetResourcePath(@"MailBadgeIcon.png"));
+		_base64RemindersBadgeIconString = CreateBase64EncodedString(GetResourcePath(@"RemindersBadgeIcon.png"));
 	}
 }
 
 
 // MARK: - Refresh all actions
 
-- (void)refreshUnreadCount
+- (void)refreshDueCount
 {
-	if(!self.isAppleMailRunning)
+    if(!self.isRemindersRunning)
 	{
 		return;
 	}
 	
-	// Execute the NumberOfUnreadMails.scpt Applescript tp retrieve the number of unread emails
-	int numberOfUnreadEmails = -1;
-	NSURL* url = [NSURL fileURLWithPath:GetResourcePath(@"NumberOfUnreadMails.scpt")];
+	// Execute the NumberOfDueReminders.scpt Applescript tp retrieve the number of due reminders
+	int numberOfDueReminders = -1;
+	NSURL* url = [NSURL fileURLWithPath:GetResourcePath(@"NumberOfDueReminders.scpt")];
 	
 	NSDictionary *errors = nil;
 	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:url error:&errors];
@@ -215,26 +216,26 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 		NSAppleEventDescriptor *eventDescriptor = [appleScript executeAndReturnError:&errors];
 		if(eventDescriptor != nil && [eventDescriptor descriptorType] != kAENullEvent)
 		{
-			numberOfUnreadEmails = (int)[eventDescriptor int32Value];
+			numberOfDueReminders = (int)[eventDescriptor int32Value];
 		}
 	}
 	
 	// Update each known context with the new value
 	for(NSString *context in self.knownContexts)
 	{
-		if(numberOfUnreadEmails > 0)
+		if(numberOfDueReminders > 0)
 		{
-			[self.connectionManager setImage:self.base64MailBadgeIconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
-			[self.connectionManager setTitle:[NSString stringWithFormat:@"%d", numberOfUnreadEmails] withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
+			[self.connectionManager setImage:self.base64RemindersBadgeIconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
+			[self.connectionManager setTitle:[NSString stringWithFormat:@"%d", numberOfDueReminders] withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
 		}
-		else if(numberOfUnreadEmails == 0)
+		else if(numberOfDueReminders == 0)
 		{
-			[self.connectionManager setImage:self.base64MailIconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
+			[self.connectionManager setImage:self.base64RemindersconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
 			[self.connectionManager setTitle:@" " withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
 		}
 		else
 		{
-			[self.connectionManager setImage:self.base64MailIconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
+			[self.connectionManager setImage:self.base64RemindersconString withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
 			[self.connectionManager setTitle:nil withContext:context withTarget:kESDSDKTarget_HardwareAndSoftware];
 			[self.connectionManager showAlertForContext:context];
 		}
@@ -247,8 +248,8 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 
 - (void)keyDownForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID
 {
-	// On key press, open the Mail.app application
-	NSURL* url = [NSURL fileURLWithPath:GetResourcePath(@"OpenMail.scpt")];
+	// On key press, open the Reminders.app application
+	NSURL* url = [NSURL fileURLWithPath:GetResourcePath(@"OpenReminders.scpt")];
 	
 	NSDictionary *errors = nil;
 	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:url error:&errors];
@@ -271,8 +272,8 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 	// Add the context to the list of known contexts
 	[self.knownContexts addObject:context];
 	
-	// Explicitely refresh the number of unread emails
-	[self refreshUnreadCount];
+	// Explicitely refresh the number of due reminders
+	[self refreshDueCount];
 }
 
 - (void)willDisappearForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID
@@ -293,20 +294,20 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 
 - (void)applicationDidLaunch:(NSDictionary *)applicationInfo
 {
-	if([applicationInfo[@kESDSDKPayloadApplication] isEqualToString:@"com.apple.mail"])
+	if([applicationInfo[@kESDSDKPayloadApplication] isEqualToString:@"com.apple.reminders"])
 	{
-		self.isAppleMailRunning = YES;
+        self.isRemindersRunning = YES;
 		
-		// Explicitely refresh the number of unread emails
-		[self refreshUnreadCount];
+		// Explicitely refresh the number of due reminders
+		[self refreshDueCount];
 	}
 }
 
 - (void)applicationDidTerminate:(NSDictionary *)applicationInfo
 {
-	if([applicationInfo[@kESDSDKPayloadApplication] isEqualToString:@"com.apple.mail"])
+	if([applicationInfo[@kESDSDKPayloadApplication] isEqualToString:@"com.apple.reminders"])
 	{
-		self.isAppleMailRunning = NO;
+        self.isRemindersRunning = NO;
 	}
 }
 

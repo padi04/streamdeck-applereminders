@@ -1,8 +1,8 @@
 {
-  "Description": "显示您有多少未读邮件。", 
-  "Name": "Apple“邮件”", 
-  "com.elgato.applemail.action": {
-    "Name": "Apple“邮件”", 
-    "Tooltip": "显示您有多少未读邮件"
+  "Description": "查看您今天有多少提醒到期",
+  "Name": "Apple“提醒”",
+  "com.padi04.reminders.action": {
+    "Name": "Apple“提醒”", 
+    "Tooltip": "查看您今天有多少提醒到期"
   }
 }

@@ -1,8 +1,8 @@
 {
-  "Description": "Consultez le nombre d’e-mails non lus.", 
-  "Name": "Apple Mail", 
-  "com.elgato.applemail.action": {
-    "Name": "Apple Mail", 
-    "Tooltip": "Consultez le nombre d’e-mails non lus"
+  "Description": "Voyez combien de rappels vous avez dus aujourd'hui.",
+  "Name": "Apple Reminders",
+  "com.padi04.reminders.action": {
+    "Name": "Apple Reminders",
+    "Tooltip": "Voyez combien de rappels vous avez dus aujourd'hui"
   }
 }

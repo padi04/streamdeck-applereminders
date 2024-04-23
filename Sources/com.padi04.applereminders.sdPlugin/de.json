@@ -1,8 +1,8 @@
 {
-  "Description": "Sieh, wie viele ungelesene E-Mails du hast.", 
-  "Name": "Apple Mail", 
-  "com.elgato.applemail.action": {
-    "Name": "Apple Mail", 
-    "Tooltip": "Sieh, wie viele ungelesene E-Mails du hast"
+  "Description": "Sehen Sie, wie viele Erinnerungen heute fällig sind.",
+  "Name": "Apple Reminders",
+  "com.padi04.reminders.action": {
+    "Name": "Apple Reminders",
+    "Tooltip": "Sehen Sie, wie viele Erinnerungen heute fällig sind"
   }
 }

@@ -1,8 +1,8 @@
 {
-  "Description": "Averigua cuántos correos tienes sin leer.", 
-  "Name": "Aplicación Mail de Apple", 
-  "com.elgato.applemail.action": {
-    "Name": "Aplicación Mail de Apple", 
-    "Tooltip": "Averigua cuántos correos tienes sin leer"
+  "Description": "Averigua cuántos recordatorios pendientes tienes a completar hoy.",
+  "Name": "Aplicación Recordatorios de Apple",
+  "com.padi04.reminders.action": {
+    "Name": "Aplicación Recordatorios de Apple",
+    "Tooltip": "Averigua cuántos recordatorios pendientes tienes a completar hoy"
   }
 }

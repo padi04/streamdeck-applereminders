@@ -1,8 +1,8 @@
 {
-  "Description": "未読のメール件数を表示。", 
-  "Name": "Appleの“メール”", 
-  "com.elgato.applemail.action": {
-    "Name": "Appleの“メール”", 
-    "Tooltip": "未読のメール件数を表示。"
+  "Description": "今日期限のリマインダーの数を確認する",
+  "Name": "Appleの“알림”",
+  "com.padi04.reminders.action": {
+    "Name": "Appleの“알림”",
+    "Tooltip": "今日期限のリマインダーの数を確認する"
   }
 }
